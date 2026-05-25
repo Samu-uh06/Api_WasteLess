@@ -185,11 +185,11 @@ class SqlRoleRepository extends RoleRepository {
   }
 
   async validatePermissions(permisos) {
-    const pool = await getConnection();
-    const result = await pool.request().query(`SELECT idPermiso FROM Permisos`);
-    const validIds = result.recordset.map(r => r.idPermiso);
-    return permisos.every(id => validIds.includes(id));
-  }
+  const pool = await getConnection();
+  const result = await pool.request().query(`SELECT idPermiso FROM Permisos`);
+  const validIds = result.recordset.map(r => Number(r.idPermiso));
+  return permisos.every(id => validIds.includes(Number(id)));
+}
 }
 
 module.exports = SqlRoleRepository;

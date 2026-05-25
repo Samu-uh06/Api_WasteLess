@@ -15,18 +15,27 @@ const AppException = require('../../../../../shared/exceptions/AppException');
 const repo = new SqlAuthRepository();
 
 class AuthController {
-  async login(req, res, next) {
-    try {
-      const { error, value } = LoginDTO.validate(req.body);
-      if (error) throw new AppException(error.details[0].message, 400, 'VALIDATION_ERROR');
+ async login(req, res, next) {
+  try {
+    const { error, value } = LoginDTO.validate(req.body);
+    if (error) throw new AppException(error.details[0].message, 400, 'VALIDATION_ERROR');
 
-      const ip = req.ip;
-      const dispositivo = req.headers['user-agent'] || 'desconocido';
+    const ip = req.ip;
+    const dispositivo = req.headers['user-agent'] || 'desconocido';
 
-      const result = await new LoginUser(repo).execute({ ...value, ip, dispositivo });
-      res.json({ success: true, data: result });
-    } catch (err) { next(err); }
-  }
+    const result = await new LoginUser(repo).execute({ ...value, ip, dispositivo });
+
+    res.json({ 
+      success: true, 
+      data: {
+        token: result.token,
+        refreshToken: result.refreshToken,
+        idSesion: result.session?.idSesion || null,
+        user: result.user
+      }
+    });
+  } catch (err) { next(err); }
+}
 
   async logout(req, res, next) {
     try {

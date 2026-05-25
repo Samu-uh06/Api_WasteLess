@@ -163,20 +163,20 @@ class SqlUserRepository extends UserRepository {
     return result.recordset[0] ? new User(result.recordset[0]) : null;
   }
 
-  async getUsersStatistics() {
-    const pool = await getConnection();
-    const result = await pool.request().query(`
-      SELECT
-        COUNT(*) AS total,
-        SUM(CASE WHEN estado = 'activo' THEN 1 ELSE 0 END) AS activos,
-        SUM(CASE WHEN estado = 'inactivo' THEN 1 ELSE 0 END) AS inactivos,
-        SUM(CASE WHEN r.nombre = 'Administrador' THEN 1 ELSE 0 END) AS administradores
-      FROM Usuarios u
-      LEFT JOIN Roles r ON u.idRol = r.idRol
-      WHERE u.estado != 'eliminado'
-    `);
-    return result.recordset[0];
-  }
+async getUsersStatistics() {
+  const pool = await getConnection();
+  const result = await pool.request().query(`
+    SELECT
+      COUNT(*) AS total,
+      SUM(CASE WHEN u.estado = 'activo' THEN 1 ELSE 0 END) AS activos,
+      SUM(CASE WHEN u.estado = 'inactivo' THEN 1 ELSE 0 END) AS inactivos,
+      SUM(CASE WHEN r.nombre = 'Administrador' THEN 1 ELSE 0 END) AS administradores
+    FROM Usuarios u
+    LEFT JOIN Roles r ON u.idRol = r.idRol
+    WHERE u.estado != 'eliminado'
+  `);
+  return result.recordset[0];
+}
 }
 
 module.exports = SqlUserRepository;
