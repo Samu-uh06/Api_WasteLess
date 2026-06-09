@@ -98,4 +98,26 @@ const seed = async () => {
   }
 };
 
+      const permisosEmpresas = [
+        { nombre: 'Ver empresas', codigo: 'companies.view', descripcion: 'Permite ver empresas' },
+        { nombre: 'Crear empresas', codigo: 'companies.create', descripcion: 'Permite crear empresas' },
+        { nombre: 'Editar empresas', codigo: 'companies.edit', descripcion: 'Permite editar empresas' },
+        { nombre: 'Eliminar empresas', codigo: 'companies.delete', descripcion: 'Permite eliminar empresas' },
+      ];
+
+      for (const permiso of permisosEmpresas) {
+        const existe = await pool.request()
+          .input('codigo', sql.NVarChar, permiso.codigo)
+          .query(`SELECT * FROM Permisos WHERE codigo = @codigo`);
+
+        if (existe.recordset.length === 0) {
+          await pool.request()
+            .input('nombre', sql.NVarChar, permiso.nombre)
+            .input('codigo', sql.NVarChar, permiso.codigo)
+            .input('descripcion', sql.NVarChar, permiso.descripcion)
+            .query(`INSERT INTO Permisos (nombre, codigo, descripcion) VALUES (@nombre, @codigo, @descripcion)`);
+        }
+      }
+      console.log('✅ Permisos de empresas verificados');
+
 seed();

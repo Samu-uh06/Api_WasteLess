@@ -4,6 +4,7 @@ const { CREATE_TABLES, SEED_PERMISSIONS } = require('./modules/configuracion/rol
 const { CREATE_TABLE: CREATE_USERS_TABLE } = require('./modules/usuarios/gestion-usuarios/infrastructure/database/userQueries');
 const { CREATE_TABLES: CREATE_AUTH_TABLES } = require('./modules/usuarios/gestion-acceso/infrastructure/database/authQueries');
 const { CREATE_TABLES: CREATE_DISH_TABLES } = require('./modules/platillos/gestion-platillos/infrastructure/database/dishQueries');
+const { CREATE_TABLES: CREATE_COMPANY_TABLES, SEED_CITIES } = require('./modules/planeacion-gastronomica/gestion-empresas/infrastructure/database/companyQueries');
 const logger = require('./shared/utils/logger');
 
 const PORT = process.env.PORT || 3000;
@@ -28,6 +29,12 @@ const start = async () => {
 
     await pool.request().query(CREATE_DISH_TABLES);
     logger.info('Tablas CategoriasPlatillo y Platillos verificadas');
+
+    await pool.request().query(CREATE_COMPANY_TABLES);
+    logger.info('✅ Tablas Ciudades y Empresas verificadas');
+
+    await pool.request().query(SEED_CITIES);
+    logger.info('✅ Ciudades base verificadas');
 
     app.listen(PORT, () => {
       logger.info(`Servidor corriendo en http://localhost:${PORT}`);
