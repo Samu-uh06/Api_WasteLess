@@ -229,3 +229,27 @@
 {"level":"info","message":{"action":"UPDATE_USER","idUsuario":3},"timestamp":"2026-05-20T14:57:54.948Z"}
 {"level":"info","message":{"action":"CHANGE_USER_STATUS","estado":"inactivo","idUsuario":3},"timestamp":"2026-05-20T14:58:54.612Z"}
 {"level":"info","message":{"action":"CHANGE_USER_STATUS","estado":"activo","idUsuario":3},"timestamp":"2026-05-20T14:59:05.889Z"}
+{"level":"info","message":"Conexión a SQL Server establecida","timestamp":"2026-05-27T13:13:37.889Z"}
+{"level":"info","message":"Tablas Roles, Permisos y RolPermiso verificadas","timestamp":"2026-05-27T13:13:38.003Z"}
+{"level":"info","message":"Permisos base verificados","timestamp":"2026-05-27T13:13:38.013Z"}
+{"level":"info","message":"Tabla Usuarios verificada","timestamp":"2026-05-27T13:13:38.062Z"}
+{"level":"info","message":"Tablas Sesiones y RecuperacionPassword verificadas","timestamp":"2026-05-27T13:13:38.084Z"}
+{"level":"info","message":"Tablas CategoriasPlatillo y Platillos verificadas","timestamp":"2026-05-27T13:13:38.170Z"}
+{"level":"info","message":"Servidor corriendo en http://localhost:3000","timestamp":"2026-05-27T13:13:38.179Z"}
+{"level":"info","message":{"action":"LOGIN","email":"admin@wasteless.com","idUsuario":"1","ip":"::1"},"timestamp":"2026-05-27T13:17:00.057Z"}
+{"level":"info","message":{"action":"CREATE_CATEGORY","idCategoria":"1","nombre":"Desayuno"},"timestamp":"2026-05-27T13:17:48.058Z"}
+{"level":"info","message":{"action":"UPDATE_CATEGORY","idCategoria":1},"timestamp":"2026-05-27T13:18:46.312Z"}
+{"level":"info","message":{"action":"DELETE_CATEGORY","idCategoria":1},"timestamp":"2026-05-27T13:19:05.366Z"}
+{"level":"info","message":{"action":"LOGIN","email":"admin@wasteless.com","idUsuario":"1","ip":"::1"},"timestamp":"2026-05-27T13:21:09.755Z"}
+{"level":"info","message":{"action":"LOGIN","email":"admin@wasteless.com","idUsuario":"1","ip":"::1"},"timestamp":"2026-05-27T13:24:12.699Z"}
+{"level":"info","message":{"action":"CREATE_CATEGORY","idCategoria":"2","nombre":"Desayuno"},"timestamp":"2026-05-27T13:24:46.029Z"}
+{"level":"info","message":{"action":"UPDATE_CATEGORY","idCategoria":2},"timestamp":"2026-05-27T13:26:21.898Z"}
+{"level":"error","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Violation of UNIQUE KEY constraint 'UQ_CategoriasPlatillo_nombre'. Cannot insert duplicate key in object 'dbo.CategoriasPlatillo'. The duplicate key value is (Desayuno Especial).","method":"PUT","path":"/api/dishes/categories/2","stack":"RequestError: [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Violation of UNIQUE KEY constraint 'UQ_CategoriasPlatillo_nombre'. Cannot insert duplicate key in object 'dbo.CategoriasPlatillo'. The duplicate key value is (Desayuno Especial).\n    at handleError (C:\\Users\\samue\\Desktop\\Api_WasteLess\\node_modules\\mssql\\lib\\msnodesqlv8\\request.js:291:21)\n    at StreamEvents.emit (node:events:518:28)\n    at C:\\Users\\samue\\Desktop\\Api_WasteLess\\node_modules\\msnodesqlv8\\lib\\reader.js:94:20\n    at Array.forEach (<anonymous>)\n    at Query.routeStatementError (C:\\Users\\samue\\Desktop\\Api_WasteLess\\node_modules\\msnodesqlv8\\lib\\reader.js:84:19)\n    at C:\\Users\\samue\\Desktop\\Api_WasteLess\\node_modules\\msnodesqlv8\\lib\\reader.js:436:12","timestamp":"2026-05-27T13:27:51.505Z"}
+{"level":"info","message":{"action":"UPDATE_CATEGORY","idCategoria":2},"timestamp":"2026-05-27T13:28:14.912Z"}
+{"level":"error","message":"La categoría especificada no existe","method":"POST","path":"/api/dishes","stack":"Error: La categoría especificada no existe\n    at CreateDish.execute (C:\\Users\\samue\\Desktop\\Api_WasteLess\\src\\modules\\platillos\\gestion-platillos\\application\\use-cases\\CreateDish.js:14:26)\n    at runNextTicks (node:internal/process/task_queues:65:5)\n    at process.processImmediate (node:internal/timers:453:9)\n    at async DishController.create (C:\\Users\\samue\\Desktop\\Api_WasteLess\\src\\modules\\platillos\\gestion-platillos\\interfaces\\controllers\\DishController.js:67:20)","timestamp":"2026-05-27T13:28:44.948Z"}
+{"level":"info","message":{"action":"CREATE_DISH","idPlatillo":"1","nombre":"Arepa con Huevo"},"timestamp":"2026-05-27T13:28:51.638Z"}
+{"level":"info","message":{"action":"CREATE_DISH","idPlatillo":"2","nombre":"Arepa con queso"},"timestamp":"2026-05-27T13:33:09.272Z"}
+{"level":"info","message":{"action":"UPDATE_DISH","idPlatillo":2},"timestamp":"2026-05-27T13:38:16.057Z"}
+{"level":"info","message":{"action":"CHANGE_DISH_STATUS","estado":"inactivo","idPlatillo":1},"timestamp":"2026-05-27T13:39:19.614Z"}
+{"level":"info","message":{"action":"CHANGE_DISH_STATUS","estado":"activo","idPlatillo":1},"timestamp":"2026-05-27T13:39:33.480Z"}
+{"level":"info","message":{"action":"DELETE_DISH","idPlatillo":1},"timestamp":"2026-05-27T13:40:14.298Z"}

@@ -1,17 +1,4 @@
-const sql = require('mssql');
-
-const config = {
-  server: 'DESKTOP-C6IVMLS\\SQLEXPRESS',
-  database: 'Api_WasteLess',
-  port: 1433,
-  options: {
-    encrypt: false,
-    trustServerCertificate: true,
-    trustedConnection: true,
-  },
-};
-
-const getConnection = async () => await sql.connect(config);
+const { getConnection, sql } = require('./sqlServerConnection');
 const bcrypt = require('bcryptjs');
 
 const seed = async () => {
@@ -40,26 +27,26 @@ const seed = async () => {
     }
 
     const newPermisos = [
-  { nombre: 'Ver platillos', codigo: 'dishes.view', descripcion: 'Permite ver platillos' },
-  { nombre: 'Crear platillos', codigo: 'dishes.create', descripcion: 'Permite crear platillos' },
-  { nombre: 'Editar platillos', codigo: 'dishes.edit', descripcion: 'Permite editar platillos' },
-  { nombre: 'Eliminar platillos', codigo: 'dishes.delete', descripcion: 'Permite eliminar platillos' },
-];
+      { nombre: 'Ver platillos', codigo: 'dishes.view', descripcion: 'Permite ver platillos' },
+      { nombre: 'Crear platillos', codigo: 'dishes.create', descripcion: 'Permite crear platillos' },
+      { nombre: 'Editar platillos', codigo: 'dishes.edit', descripcion: 'Permite editar platillos' },
+      { nombre: 'Eliminar platillos', codigo: 'dishes.delete', descripcion: 'Permite eliminar platillos' },
+    ];
 
-for (const permiso of newPermisos) {
-  const existe = await pool.request()
-    .input('codigo', sql.NVarChar, permiso.codigo)
-    .query(`SELECT * FROM Permisos WHERE codigo = @codigo`);
+    for (const permiso of newPermisos) {
+      const existe = await pool.request()
+        .input('codigo', sql.NVarChar, permiso.codigo)
+        .query(`SELECT * FROM Permisos WHERE codigo = @codigo`);
 
-  if (existe.recordset.length === 0) {
-    await pool.request()
-      .input('nombre', sql.NVarChar, permiso.nombre)
-      .input('codigo', sql.NVarChar, permiso.codigo)
-      .input('descripcion', sql.NVarChar, permiso.descripcion)
-      .query(`INSERT INTO Permisos (nombre, codigo, descripcion) VALUES (@nombre, @codigo, @descripcion)`);
-  }
-}
-console.log('✅ Permisos de platillos verificados');
+      if (existe.recordset.length === 0) {
+        await pool.request()
+          .input('nombre', sql.NVarChar, permiso.nombre)
+          .input('codigo', sql.NVarChar, permiso.codigo)
+          .input('descripcion', sql.NVarChar, permiso.descripcion)
+          .query(`INSERT INTO Permisos (nombre, codigo, descripcion) VALUES (@nombre, @codigo, @descripcion)`);
+      }
+    }
+    console.log('Permisos de platillos verificados');
 
     // Asignar todos los permisos al rol administrador
     const permisos = await pool.request().query(`SELECT idPermiso FROM Permisos`);
