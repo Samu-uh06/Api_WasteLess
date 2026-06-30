@@ -40,7 +40,10 @@ class SqlRoleRepository extends RoleRepository {
     await pool.request()
       .input('idRol', sql.Int, idRol)
       .query(`
-        UPDATE Roles SET estado = 'eliminado', fechaActualizacion = GETDATE()
+        UPDATE Roles SET 
+          estado = 'eliminado', 
+          nombre = nombre + '_eliminado_' + CAST(idRol AS NVARCHAR(10)),
+          fechaActualizacion = GETDATE()
         WHERE idRol = @idRol
       `);
   }
@@ -67,8 +70,13 @@ class SqlRoleRepository extends RoleRepository {
         ORDER BY ${orderBy} ${orderDir}
         OFFSET @offset ROWS FETCH NEXT @limit ROWS ONLY
       `);
+    const roles = result.recordset.map(r => new Role(r));
+    for (const role of roles) {
+      role.permisos = await this.getRolePermissions(role.idRol);
+      role.totalUsuarios = await this.countUsersByRole(role.idRol);
+    }
     return {
-      data: result.recordset.map(r => new Role(r)),
+      data: roles,
       total: result.recordset[0]?.totalRegistros || 0,
       page,
       limit,
@@ -98,8 +106,13 @@ class SqlRoleRepository extends RoleRepository {
       OFFSET @offset ROWS FETCH NEXT @limit ROWS ONLY
     `);
 
+    const roles = result.recordset.map(r => new Role(r));
+    for (const role of roles) {
+      role.permisos = await this.getRolePermissions(role.idRol);
+      role.totalUsuarios = await this.countUsersByRole(role.idRol);
+    }
     return {
-      data: result.recordset.map(r => new Role(r)),
+      data: roles,
       total: result.recordset[0]?.totalRegistros || 0,
       page,
       limit,
@@ -185,11 +198,11 @@ class SqlRoleRepository extends RoleRepository {
   }
 
   async validatePermissions(permisos) {
-  const pool = await getConnection();
-  const result = await pool.request().query(`SELECT idPermiso FROM Permisos`);
-  const validIds = result.recordset.map(r => Number(r.idPermiso));
-  return permisos.every(id => validIds.includes(Number(id)));
-}
+    const pool = await getConnection();
+    const result = await pool.request().query(`SELECT idPermiso FROM Permisos`);
+    const validIds = result.recordset.map(r => Number(r.idPermiso));
+    return permisos.every(id => validIds.includes(Number(id)));
+  }
 }
 
 module.exports = SqlRoleRepository;

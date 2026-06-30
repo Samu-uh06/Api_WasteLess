@@ -9,6 +9,7 @@ const UpdateDishDTO = Joi.object({
   carbohidratos: Joi.number().min(0).optional(),
   grasas: Joi.number().min(0).optional(),
   idCategoria: Joi.number().integer().required(),
+  bebida: Joi.boolean().optional().default(false)
 });
 
 module.exports = UpdateDishDTO;

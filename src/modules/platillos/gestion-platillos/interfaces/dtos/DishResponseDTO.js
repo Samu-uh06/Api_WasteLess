@@ -12,9 +12,9 @@ const DishResponseDTO = (dish) => ({
   imagen: dish.imagen,
   idCategoria: dish.idCategoria,
   nombreCategoria: dish.nombreCategoria,
+  bebida: dish.bebida,
   estado: dish.estado,
   fechaCreacion: dish.fechaCreacion,
   fechaActualizacion: dish.fechaActualizacion,
 });
-
 module.exports = DishResponseDTO;

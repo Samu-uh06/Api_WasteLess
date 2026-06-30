@@ -59,14 +59,28 @@ class DishController {
   // ==================== PLATILLOS ====================
   async create(req, res, next) {
     try {
-      const { error, value } = CreateDishDTO.validate(req.body);
+      const body = {
+        ...req.body,
+        precio: req.body.precio !== undefined ? Number(req.body.precio) : undefined,
+        idCategoria: req.body.idCategoria !== undefined ? Number(req.body.idCategoria) : undefined,
+        calorias: req.body.calorias !== undefined ? Number(req.body.calorias) : undefined,
+        proteinas: req.body.proteinas !== undefined ? Number(req.body.proteinas) : undefined,
+        carbohidratos: req.body.carbohidratos !== undefined ? Number(req.body.carbohidratos) : undefined,
+        grasas: req.body.grasas !== undefined ? Number(req.body.grasas) : undefined,
+        bebida: req.body.bebida === 'true' || req.body.bebida === true,
+      };
+
+      const { error, value } = CreateDishDTO.validate(body);
       if (error) throw new AppException(error.details[0].message, 400, 'VALIDATION_ERROR');
 
       if (req.file) value.imagen = req.file.path;
 
       const dish = await new CreateDish(repo).execute(value);
       res.status(201).json({ success: true, data: DishResponseDTO(dish) });
-    } catch (err) { next(err); }
+    } catch (err) {
+      console.error('ERROR CREAR PLATILLO:', err);
+      next(err);
+    }
   }
 
   async getAll(req, res, next) {
@@ -100,8 +114,21 @@ class DishController {
 
   async update(req, res, next) {
     try {
-      const { error, value } = UpdateDishDTO.validate(req.body);
+      const body = {
+        ...req.body,
+        precio: req.body.precio !== undefined ? Number(req.body.precio) : undefined,
+        idCategoria: req.body.idCategoria !== undefined ? Number(req.body.idCategoria) : undefined,
+        calorias: req.body.calorias !== undefined ? Number(req.body.calorias) : undefined,
+        proteinas: req.body.proteinas !== undefined ? Number(req.body.proteinas) : undefined,
+        carbohidratos: req.body.carbohidratos !== undefined ? Number(req.body.carbohidratos) : undefined,
+        grasas: req.body.grasas !== undefined ? Number(req.body.grasas) : undefined,
+        bebida: req.body.bebida === 'true' || req.body.bebida === true,
+      };
+
+      const { error, value } = UpdateDishDTO.validate(body);
       if (error) throw new AppException(error.details[0].message, 400, 'VALIDATION_ERROR');
+
+      if (req.file) value.imagen = req.file.path;
 
       const dish = await new UpdateDish(repo).execute(+req.params.id, value);
       res.json({ success: true, data: DishResponseDTO(dish) });

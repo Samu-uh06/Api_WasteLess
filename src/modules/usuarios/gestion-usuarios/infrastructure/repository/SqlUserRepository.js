@@ -23,35 +23,46 @@ class SqlUserRepository extends UserRepository {
     return new User(result.recordset[0]);
   }
 
-  async updateUser(idUsuario, data) {
-    const pool = await getConnection();
-    const result = await pool.request()
-      .input('idUsuario', sql.Int, idUsuario)
-      .input('nombres', sql.NVarChar(100), data.nombres)
-      .input('apellidos', sql.NVarChar(100), data.apellidos)
-      .input('tipoDocumento', sql.NVarChar(20), data.tipoDocumento)
-      .input('numeroDocumento', sql.NVarChar(50), data.numeroDocumento)
-      .input('telefono', sql.NVarChar(20), data.telefono || null)
-      .input('empresa', sql.NVarChar(150), data.empresa || null)
-      .input('idRol', sql.Int, data.idRol)
-      .query(`
-        UPDATE Usuarios SET
-          nombres = @nombres, apellidos = @apellidos,
-          tipoDocumento = @tipoDocumento, numeroDocumento = @numeroDocumento,
-          telefono = @telefono, empresa = @empresa,
-          idRol = @idRol, fechaActualizacion = GETDATE()
-        OUTPUT INSERTED.*
-        WHERE idUsuario = @idUsuario
-      `);
-    if (!result.recordset[0]) return null;
-    return new User(result.recordset[0]);
-  }
+async updateUser(idUsuario, data) {
+  const pool = await getConnection();
+  const result = await pool.request()
+    .input('idUsuario', sql.Int, idUsuario)
+    .input('nombres', sql.NVarChar(100), data.nombres)
+    .input('apellidos', sql.NVarChar(100), data.apellidos)
+    .input('tipoDocumento', sql.NVarChar(20), data.tipoDocumento)
+    .input('numeroDocumento', sql.NVarChar(50), data.numeroDocumento)
+    .input('telefono', sql.NVarChar(20), data.telefono || null)
+    .input('empresa', sql.NVarChar(150), data.empresa || null)
+    .input('idRol', sql.Int, data.idRol)
+    .input('email', sql.NVarChar(150), data.email || null)
+    .query(`
+      UPDATE Usuarios SET
+        nombres = @nombres, apellidos = @apellidos,
+        tipoDocumento = @tipoDocumento, numeroDocumento = @numeroDocumento,
+        telefono = @telefono, empresa = @empresa,
+        idRol = @idRol,
+        email = COALESCE(@email, email),
+        fechaActualizacion = GETDATE()
+      OUTPUT INSERTED.*
+      WHERE idUsuario = @idUsuario
+    `);
+  if (!result.recordset[0]) return null;
+  return new User(result.recordset[0]);
+}
 
   async deleteUser(idUsuario) {
     const pool = await getConnection();
     await pool.request()
       .input('idUsuario', sql.Int, idUsuario)
-      .query(`UPDATE Usuarios SET estado = 'eliminado', fechaActualizacion = GETDATE() WHERE idUsuario = @idUsuario`);
+      .query(`
+        UPDATE Usuarios 
+        SET 
+          estado = 'eliminado',
+          numeroDocumento = CONCAT(numeroDocumento, '_deleted_', CAST(idUsuario AS NVARCHAR)),
+          email = CONCAT(email, '_deleted_', CAST(idUsuario AS NVARCHAR)),
+          fechaActualizacion = GETDATE()
+        WHERE idUsuario = @idUsuario
+      `);
   }
 
   async getUserById(idUsuario) {

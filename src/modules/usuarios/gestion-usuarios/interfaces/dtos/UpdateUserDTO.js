@@ -1,5 +1,4 @@
 const Joi = require('joi');
-
 const UpdateUserDTO = Joi.object({
   nombres: Joi.string().max(100).required(),
   apellidos: Joi.string().max(100).required(),
@@ -8,6 +7,6 @@ const UpdateUserDTO = Joi.object({
   telefono: Joi.string().max(20).optional(),
   empresa: Joi.string().max(150).optional(),
   idRol: Joi.number().integer().required(),
+  email: Joi.string().email().optional(),
 });
-
 module.exports = UpdateUserDTO;

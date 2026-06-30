@@ -1,7 +1,7 @@
 class User {
   constructor({
     idUsuario, nombres, apellidos, tipoDocumento, numeroDocumento,
-    telefono, email, password, empresa, idRol, estado,
+    telefono, email, password, empresa, idRol, nombreRol, estado,
     fechaCreacion, fechaActualizacion
   }) {
     this.idUsuario = idUsuario;
@@ -14,6 +14,7 @@ class User {
     this.password = password;
     this.empresa = empresa;
     this.idRol = idRol;
+    this.nombreRol = nombreRol || null;  // ← agregar
     this.estado = estado;
     this.fechaCreacion = fechaCreacion;
     this.fechaActualizacion = fechaActualizacion;

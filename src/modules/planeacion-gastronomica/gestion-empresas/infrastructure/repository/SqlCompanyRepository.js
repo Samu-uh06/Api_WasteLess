@@ -51,7 +51,14 @@ class SqlCompanyRepository extends CompanyRepository {
     const pool = await getConnection();
     await pool.request()
       .input('idEmpresa', sql.Int, idEmpresa)
-      .query(`UPDATE Empresas SET estado = 'eliminado', fechaActualizacion = GETDATE() WHERE idEmpresa = @idEmpresa`);
+      .query(`
+        UPDATE Empresas 
+        SET 
+          estado = 'eliminado',
+          nit = CONCAT(nit, '_deleted_', CAST(idEmpresa AS NVARCHAR)),
+          fechaActualizacion = GETDATE()
+        WHERE idEmpresa = @idEmpresa
+      `);
   }
 
   async getCompanyById(idEmpresa) {

@@ -21,7 +21,7 @@ class SqlDishRepository extends DishRepository {
   async updateCategory(idCategoria, data) {
     const pool = await getConnection();
     const result = await pool.request()
-      .input('idCategoria', sql.Int, idCategoria)
+      .input('idCategoria', sql.Int, parseInt(idCategoria))
       .input('nombre', sql.NVarChar(100), data.nombre)
       .input('descripcion', sql.NVarChar(300), data.descripcion || null)
       .query(`
@@ -38,7 +38,7 @@ class SqlDishRepository extends DishRepository {
   async deleteCategory(idCategoria) {
     const pool = await getConnection();
     await pool.request()
-      .input('idCategoria', sql.Int, idCategoria)
+      .input('idCategoria', sql.Int, parseInt(idCategoria))
       .query(`
         UPDATE CategoriasPlatillo SET estado = 'eliminado', fechaActualizacion = GETDATE()
         WHERE idCategoria = @idCategoria
@@ -48,7 +48,7 @@ class SqlDishRepository extends DishRepository {
   async getCategoryById(idCategoria) {
     const pool = await getConnection();
     const result = await pool.request()
-      .input('idCategoria', sql.Int, idCategoria)
+      .input('idCategoria', sql.Int, parseInt(idCategoria))
       .query(`SELECT * FROM CategoriasPlatillo WHERE idCategoria = @idCategoria AND estado != 'eliminado'`);
     return result.recordset[0] ? new DishCategory(result.recordset[0]) : null;
   }
@@ -69,30 +69,40 @@ class SqlDishRepository extends DishRepository {
   }
 
   // ==================== PLATILLOS ====================
-  async createDish(data) {
-    const pool = await getConnection();
-    const result = await pool.request()
-      .input('nombre', sql.NVarChar(150), data.nombre)
-      .input('descripcion', sql.NVarChar(500), data.descripcion || null)
-      .input('precio', sql.Decimal(10, 2), data.precio)
-      .input('calorias', sql.Decimal(10, 2), data.calorias || null)
-      .input('proteinas', sql.Decimal(10, 2), data.proteinas || null)
-      .input('carbohidratos', sql.Decimal(10, 2), data.carbohidratos || null)
-      .input('grasas', sql.Decimal(10, 2), data.grasas || null)
-      .input('imagen', sql.NVarChar(500), data.imagen || null)
-      .input('idCategoria', sql.Int, data.idCategoria)
-      .query(`
-        INSERT INTO Platillos (nombre, descripcion, precio, calorias, proteinas, carbohidratos, grasas, imagen, idCategoria)
-        OUTPUT INSERTED.*
-        VALUES (@nombre, @descripcion, @precio, @calorias, @proteinas, @carbohidratos, @grasas, @imagen, @idCategoria)
-      `);
-    return new Dish(result.recordset[0]);
-  }
+async createDish(data) {
+  const pool = await getConnection();
+  const result = await pool.request()
+    .input('nombre', sql.NVarChar(150), data.nombre)
+    .input('descripcion', sql.NVarChar(500), data.descripcion || null)
+    .input('precio', sql.Decimal(10, 2), data.precio)
+    .input('calorias', sql.Decimal(10, 2), data.calorias || null)
+    .input('proteinas', sql.Decimal(10, 2), data.proteinas || null)
+    .input('carbohidratos', sql.Decimal(10, 2), data.carbohidratos || null)
+    .input('grasas', sql.Decimal(10, 2), data.grasas || null)
+    .input('imagen', sql.NVarChar(500), data.imagen || null)
+    .input('idCategoria', sql.Int, parseInt(data.idCategoria))
+    .input('bebida', sql.Bit, data.bebida ? 1 : 0)
+    .query(`
+      INSERT INTO Platillos (nombre, descripcion, precio, calorias, proteinas, carbohidratos, grasas, imagen, idCategoria, Bebida)
+      OUTPUT INSERTED.*
+      VALUES (@nombre, @descripcion, @precio, @calorias, @proteinas, @carbohidratos, @grasas, @imagen, @idCategoria, @bebida);
+    `);
+  const inserted = result.recordset[0];
+  const withCategory = await pool.request()
+    .input('idPlatillo', sql.Int, inserted.idPlatillo)
+    .query(`
+      SELECT p.*, c.nombre AS nombreCategoria
+      FROM Platillos p
+      LEFT JOIN CategoriasPlatillo c ON p.idCategoria = c.idCategoria
+      WHERE p.idPlatillo = @idPlatillo
+    `);
+  return new Dish(withCategory.recordset[0]);
+}
 
   async updateDish(idPlatillo, data) {
     const pool = await getConnection();
     const result = await pool.request()
-      .input('idPlatillo', sql.Int, idPlatillo)
+      .input('idPlatillo', sql.Int, parseInt(idPlatillo))
       .input('nombre', sql.NVarChar(150), data.nombre)
       .input('descripcion', sql.NVarChar(500), data.descripcion || null)
       .input('precio', sql.Decimal(10, 2), data.precio)
@@ -100,29 +110,37 @@ class SqlDishRepository extends DishRepository {
       .input('proteinas', sql.Decimal(10, 2), data.proteinas || null)
       .input('carbohidratos', sql.Decimal(10, 2), data.carbohidratos || null)
       .input('grasas', sql.Decimal(10, 2), data.grasas || null)
-      .input('idCategoria', sql.Int, data.idCategoria)
+      .input('idCategoria', sql.Int, parseInt(data.idCategoria))
+      .input('bebida', sql.Bit, data.bebida ? 1 : 0)
       .query(`
         UPDATE Platillos SET
           nombre = @nombre, descripcion = @descripcion, precio = @precio,
           calorias = @calorias, proteinas = @proteinas, carbohidratos = @carbohidratos,
-          grasas = @grasas, idCategoria = @idCategoria, fechaActualizacion = GETDATE()
+          grasas = @grasas, idCategoria = @idCategoria, Bebida = @bebida,
+          fechaActualizacion = GETDATE()
         OUTPUT INSERTED.*
         WHERE idPlatillo = @idPlatillo
       `);
     return result.recordset[0] ? new Dish(result.recordset[0]) : null;
   }
 
-  async deleteDish(idPlatillo) {
-    const pool = await getConnection();
-    await pool.request()
-      .input('idPlatillo', sql.Int, idPlatillo)
-      .query(`UPDATE Platillos SET estado = 'eliminado', fechaActualizacion = GETDATE() WHERE idPlatillo = @idPlatillo`);
-  }
+async deleteDish(idPlatillo) {
+  const pool = await getConnection();
+  await pool.request()
+    .input('idPlatillo', sql.Int, idPlatillo)
+    .query(`
+      UPDATE Platillos 
+      SET estado = 'eliminado', 
+          nombre = nombre + '_eliminado_' + CAST(idPlatillo AS NVARCHAR(10)),
+          fechaActualizacion = GETDATE() 
+      WHERE idPlatillo = @idPlatillo
+    `);
+}
 
   async getDishById(idPlatillo) {
     const pool = await getConnection();
     const result = await pool.request()
-      .input('idPlatillo', sql.Int, idPlatillo)
+      .input('idPlatillo', sql.Int, parseInt(idPlatillo))
       .query(`
         SELECT p.*, c.nombre AS nombreCategoria
         FROM Platillos p
@@ -141,7 +159,7 @@ class SqlDishRepository extends DishRepository {
 
     let filter = `WHERE p.estado != 'eliminado'`;
     if (idCategoria) {
-      request.input('idCategoria', sql.Int, idCategoria);
+      request.input('idCategoria', sql.Int, parseInt(idCategoria));
       filter += ` AND p.idCategoria = @idCategoria`;
     }
 
@@ -173,7 +191,7 @@ class SqlDishRepository extends DishRepository {
     let filter = `WHERE p.estado != 'eliminado' AND (p.nombre LIKE @search OR p.descripcion LIKE @search)`;
 
     if (idCategoria) {
-      request.input('idCategoria', sql.Int, idCategoria);
+      request.input('idCategoria', sql.Int, parseInt(idCategoria));
       filter += ` AND p.idCategoria = @idCategoria`;
     }
     if (estado) {
@@ -201,7 +219,7 @@ class SqlDishRepository extends DishRepository {
   async changeDishStatus(idPlatillo, estado) {
     const pool = await getConnection();
     await pool.request()
-      .input('idPlatillo', sql.Int, idPlatillo)
+      .input('idPlatillo', sql.Int, parseInt(idPlatillo))
       .input('estado', sql.NVarChar(20), estado)
       .query(`UPDATE Platillos SET estado = @estado, fechaActualizacion = GETDATE() WHERE idPlatillo = @idPlatillo`);
   }
@@ -209,7 +227,7 @@ class SqlDishRepository extends DishRepository {
   async updateDishImage(idPlatillo, imagen) {
     const pool = await getConnection();
     await pool.request()
-      .input('idPlatillo', sql.Int, idPlatillo)
+      .input('idPlatillo', sql.Int, parseInt(idPlatillo))
       .input('imagen', sql.NVarChar(500), imagen)
       .query(`UPDATE Platillos SET imagen = @imagen, fechaActualizacion = GETDATE() WHERE idPlatillo = @idPlatillo`);
   }
@@ -217,7 +235,7 @@ class SqlDishRepository extends DishRepository {
   async removeDishImage(idPlatillo) {
     const pool = await getConnection();
     await pool.request()
-      .input('idPlatillo', sql.Int, idPlatillo)
+      .input('idPlatillo', sql.Int, parseInt(idPlatillo))
       .query(`UPDATE Platillos SET imagen = NULL, fechaActualizacion = GETDATE() WHERE idPlatillo = @idPlatillo`);
   }
 

@@ -2,7 +2,7 @@ class Dish {
   constructor({
     idPlatillo, nombre, descripcion, precio, calorias, proteinas,
     carbohidratos, grasas, imagen, idCategoria, nombreCategoria,
-    estado, fechaCreacion, fechaActualizacion
+    estado, fechaCreacion, fechaActualizacion, Bebida
   }) {
     this.idPlatillo = idPlatillo;
     this.nombre = nombre;
@@ -18,6 +18,7 @@ class Dish {
     this.estado = estado;
     this.fechaCreacion = fechaCreacion;
     this.fechaActualizacion = fechaActualizacion;
+    this.bebida = Bebida === true || Bebida === 1;
   }
 
   isActive() {
