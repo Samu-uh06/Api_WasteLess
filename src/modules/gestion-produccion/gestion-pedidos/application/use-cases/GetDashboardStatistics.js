@@ -1,10 +1,16 @@
 class GetDashboardStatistics {
-  constructor(orderRepository) {
+  constructor(orderRepository, productionOrderRepository) {
     this.orderRepository = orderRepository;
+    this.productionOrderRepository = productionOrderRepository;
   }
 
   async execute() {
-    return this.orderRepository.getOrderStatistics();
+    const [orderStats, ordenesProduccionHoy] = await Promise.all([
+      this.orderRepository.getOrderStatistics(),
+      this.productionOrderRepository.getTodayOrders(),
+    ]);
+
+    return { ...orderStats, ordenesProduccionHoy };
   }
 }
 

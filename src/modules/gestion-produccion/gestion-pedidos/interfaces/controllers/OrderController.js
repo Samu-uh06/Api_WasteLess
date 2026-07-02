@@ -8,6 +8,7 @@ const CreateOrder = require('../../application/use-cases/CreateOrder');
 
 const SqlOrderRepository = require('../../infrastructure/repository/SqlOrderRepository');
 const SqlMenuRepository = require('../../../../planeacion-gastronomica/gestion-menu/infrastructure/repository/SqlMenuRepository');
+const SqlProductionOrderRepository = require('../../../orden-produccion/infrastructure/repository/SqlProductionOrderRepository');
 
 const UpdateMealStatusDTO = require('../dtos/UpdateMealStatusDTO');
 const CreateOrderDTO = require('../dtos/CreateOrderDTO');
@@ -19,6 +20,7 @@ const AppException = require('../../../../../shared/exceptions/AppException');
 
 const repo = new SqlOrderRepository();
 const menuRepo = new SqlMenuRepository();
+const productionOrderRepo = new SqlProductionOrderRepository();
 
 class OrderController {
   async create(req, res, next) {
@@ -33,7 +35,7 @@ class OrderController {
 
   async dashboard(req, res, next) {
     try {
-      const stats = await new GetDashboardStatistics(repo).execute();
+      const stats = await new GetDashboardStatistics(repo, productionOrderRepo).execute();
       res.json({ success: true, data: DashboardStatisticsDTO(stats) });
     } catch (err) { next(err); }
   }
@@ -78,7 +80,7 @@ class OrderController {
 
   async statistics(req, res, next) {
     try {
-      const stats = await new GetDashboardStatistics(repo).execute();
+      const stats = await new GetDashboardStatistics(repo, productionOrderRepo).execute();
       res.json({ success: true, data: DashboardStatisticsDTO(stats) });
     } catch (err) { next(err); }
   }

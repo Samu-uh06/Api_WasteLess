@@ -35,17 +35,18 @@ class LoginUser {
 
     logger.info({ action: 'LOGIN', idUsuario: user.idUsuario, email, ip });
 
-    return { 
-  token, 
-  refreshToken, 
-  session,
-  user: { 
-    idUsuario: user.idUsuario, 
-    email: user.email, 
-    idRol: user.idRol, 
-    permisos 
-  } 
-};
+  return { 
+    token, 
+    refreshToken, 
+    session,
+    user: { 
+      idUsuario: user.idUsuario, 
+      email: user.email, 
+      idRol: user.idRol,
+      nombreRol: user.nombreRol,
+      permisos 
+    } 
+  };
   }
 }
 

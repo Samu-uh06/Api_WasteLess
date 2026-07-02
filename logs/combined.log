@@ -2735,3 +2735,129 @@
 {"level":"info","message":"✅ Tablas Menus y MenuDetalle verificadas","timestamp":"2026-06-30T21:16:37.237Z"}
 {"level":"info","message":"✅ Tablas Pedidos y PedidoDetalle verificadas","timestamp":"2026-06-30T21:16:37.285Z"}
 {"level":"info","message":"Servidor corriendo en http://localhost:3000","timestamp":"2026-06-30T21:16:37.290Z"}
+{"level":"info","message":"Conexión a SQL Server establecida","timestamp":"2026-06-30T21:57:00.627Z"}
+{"level":"info","message":"Tablas Roles, Permisos y RolPermiso verificadas","timestamp":"2026-06-30T21:57:00.699Z"}
+{"level":"info","message":"Permisos base verificados","timestamp":"2026-06-30T21:57:00.705Z"}
+{"level":"info","message":"Tabla Usuarios verificada","timestamp":"2026-06-30T21:57:00.740Z"}
+{"level":"info","message":"Tablas Sesiones y RecuperacionPassword verificadas","timestamp":"2026-06-30T21:57:00.754Z"}
+{"level":"info","message":"Tablas CategoriasPlatillo y Platillos verificadas","timestamp":"2026-06-30T21:57:00.792Z"}
+{"level":"info","message":"✅ Tablas Ciudades y Empresas verificadas","timestamp":"2026-06-30T21:57:00.836Z"}
+{"level":"info","message":"✅ Ciudades base verificadas","timestamp":"2026-06-30T21:57:00.843Z"}
+{"level":"info","message":"✅ Tabla Comedores verificada","timestamp":"2026-06-30T21:57:00.881Z"}
+{"level":"info","message":"✅ Tablas Menus y MenuDetalle verificadas","timestamp":"2026-06-30T21:57:00.932Z"}
+{"level":"info","message":"✅ Tablas Pedidos y PedidoDetalle verificadas","timestamp":"2026-06-30T21:57:00.978Z"}
+{"level":"info","message":"✅ Tabla OrdenesProduccion verificada","timestamp":"2026-06-30T21:57:00.987Z"}
+{"level":"info","message":"✅ Permisos de Órdenes de Producción verificados","timestamp":"2026-06-30T21:57:01.008Z"}
+{"level":"info","message":"Servidor corriendo en http://localhost:3000","timestamp":"2026-06-30T21:57:01.015Z"}
+{"level":"info","message":{"action":"LOGIN","email":"admin@wasteless.com","idUsuario":"1","ip":"::1"},"timestamp":"2026-06-30T21:58:39.534Z"}
+{"level":"info","message":{"action":"LOGIN","email":"admin@wasteless.com","idUsuario":"1","ip":"::1"},"timestamp":"2026-07-01T04:20:25.900Z"}
+{"level":"info","message":"Conexión a SQL Server establecida","timestamp":"2026-07-01T05:05:39.981Z"}
+{"level":"info","message":"Tablas Roles, Permisos y RolPermiso verificadas","timestamp":"2026-07-01T05:05:40.102Z"}
+{"level":"info","message":"Permisos base verificados","timestamp":"2026-07-01T05:05:40.114Z"}
+{"level":"info","message":"Tabla Usuarios verificada","timestamp":"2026-07-01T05:05:40.171Z"}
+{"level":"info","message":"Tablas Sesiones y RecuperacionPassword verificadas","timestamp":"2026-07-01T05:05:40.195Z"}
+{"level":"info","message":"Tablas CategoriasPlatillo y Platillos verificadas","timestamp":"2026-07-01T05:05:40.245Z"}
+{"level":"info","message":"✅ Tablas Ciudades y Empresas verificadas","timestamp":"2026-07-01T05:05:40.301Z"}
+{"level":"info","message":"✅ Ciudades base verificadas","timestamp":"2026-07-01T05:05:40.311Z"}
+{"level":"info","message":"✅ Tabla Comedores verificada","timestamp":"2026-07-01T05:05:40.353Z"}
+{"level":"info","message":"✅ Tablas Menus y MenuDetalle verificadas","timestamp":"2026-07-01T05:05:40.394Z"}
+{"level":"info","message":"✅ Tablas Pedidos y PedidoDetalle verificadas","timestamp":"2026-07-01T05:05:40.428Z"}
+{"level":"info","message":"✅ Tabla OrdenesProduccion verificada","timestamp":"2026-07-01T05:05:40.436Z"}
+{"level":"info","message":"✅ Permisos de Órdenes de Producción verificados","timestamp":"2026-07-01T05:05:40.443Z"}
+{"level":"info","message":"Servidor corriendo en http://localhost:3000","timestamp":"2026-07-01T05:05:40.452Z"}
+{"level":"info","message":{"action":"LOGIN","email":"admin@wasteless.com","idUsuario":"1","ip":"::1"},"timestamp":"2026-07-01T05:06:51.813Z"}
+{"level":"info","message":{"action":"LOGIN","email":"admin@wasteless.com","idUsuario":"1","ip":"::1"},"timestamp":"2026-07-01T05:07:25.782Z"}
+{"level":"info","message":{"action":"LOGIN","email":"admin@wasteless.com","idUsuario":"1","ip":"::1"},"timestamp":"2026-07-01T20:55:16.785Z"}
+{"level":"info","message":{"action":"LOGIN","email":"admin@wasteless.com","idUsuario":"1","ip":"::1"},"timestamp":"2026-07-02T04:55:51.521Z"}
+{"level":"info","message":{"action":"CREATE_USER","email":"urregoherrerasamuel@gmail.com","idUsuario":"33"},"timestamp":"2026-07-02T06:07:39.192Z"}
+{"level":"error","message":"El email no tiene un formato válido","method":"POST","path":"/api/auth/login","stack":"Error: El email no tiene un formato válido\n    at AuthController.login (C:\\Users\\samue\\Desktop\\Api_WasteLess\\src\\modules\\usuarios\\gestion-acceso\\interfaces\\controllers\\AuthController.js:21:22)\n    at C:\\Users\\samue\\Desktop\\Api_WasteLess\\src\\modules\\usuarios\\gestion-acceso\\interfaces\\routes\\authRoutes.js:6:58\n    at Layer.handleRequest (C:\\Users\\samue\\Desktop\\Api_WasteLess\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (C:\\Users\\samue\\Desktop\\Api_WasteLess\\node_modules\\router\\lib\\route.js:157:13)\n    at Route.dispatch (C:\\Users\\samue\\Desktop\\Api_WasteLess\\node_modules\\router\\lib\\route.js:117:3)\n    at handle (C:\\Users\\samue\\Desktop\\Api_WasteLess\\node_modules\\router\\index.js:435:11)\n    at Layer.handleRequest (C:\\Users\\samue\\Desktop\\Api_WasteLess\\node_modules\\router\\lib\\layer.js:152:17)\n    at C:\\Users\\samue\\Desktop\\Api_WasteLess\\node_modules\\router\\index.js:295:15\n    at processParams (C:\\Users\\samue\\Desktop\\Api_WasteLess\\node_modules\\router\\index.js:582:12)\n    at next (C:\\Users\\samue\\Desktop\\Api_WasteLess\\node_modules\\router\\index.js:291:5)","timestamp":"2026-07-02T06:08:38.357Z"}
+{"level":"info","message":{"action":"LOGIN","email":"admin@wasteless.com","idUsuario":"1","ip":"::1"},"timestamp":"2026-07-02T06:25:08.586Z"}
+{"level":"info","message":"Conexión a SQL Server establecida","timestamp":"2026-07-02T06:26:08.130Z"}
+{"level":"info","message":"Tablas Roles, Permisos y RolPermiso verificadas","timestamp":"2026-07-02T06:26:08.266Z"}
+{"level":"info","message":"Permisos base verificados","timestamp":"2026-07-02T06:26:08.285Z"}
+{"level":"info","message":"Tabla Usuarios verificada","timestamp":"2026-07-02T06:26:08.459Z"}
+{"level":"info","message":"Tablas Sesiones y RecuperacionPassword verificadas","timestamp":"2026-07-02T06:26:08.532Z"}
+{"level":"info","message":"Tablas CategoriasPlatillo y Platillos verificadas","timestamp":"2026-07-02T06:26:08.681Z"}
+{"level":"info","message":"✅ Tablas Ciudades y Empresas verificadas","timestamp":"2026-07-02T06:26:08.759Z"}
+{"level":"info","message":"✅ Ciudades base verificadas","timestamp":"2026-07-02T06:26:08.771Z"}
+{"level":"info","message":"✅ Tabla Comedores verificada","timestamp":"2026-07-02T06:26:08.873Z"}
+{"level":"info","message":"✅ Tablas Menus y MenuDetalle verificadas","timestamp":"2026-07-02T06:26:09.002Z"}
+{"level":"info","message":"✅ Tablas Pedidos y PedidoDetalle verificadas","timestamp":"2026-07-02T06:26:09.118Z"}
+{"level":"info","message":"✅ Tabla OrdenesProduccion verificada","timestamp":"2026-07-02T06:26:09.152Z"}
+{"level":"info","message":"✅ Permisos de Órdenes de Producción verificados","timestamp":"2026-07-02T06:26:09.186Z"}
+{"level":"info","message":"Servidor corriendo en http://localhost:3000","timestamp":"2026-07-02T06:26:09.199Z"}
+{"level":"info","message":"Conexión a SQL Server establecida","timestamp":"2026-07-02T06:28:38.166Z"}
+{"level":"info","message":"Tablas Roles, Permisos y RolPermiso verificadas","timestamp":"2026-07-02T06:28:38.365Z"}
+{"level":"info","message":"Permisos base verificados","timestamp":"2026-07-02T06:28:38.384Z"}
+{"level":"info","message":"Tabla Usuarios verificada","timestamp":"2026-07-02T06:28:38.457Z"}
+{"level":"info","message":"Tablas Sesiones y RecuperacionPassword verificadas","timestamp":"2026-07-02T06:28:38.526Z"}
+{"level":"info","message":"Tablas CategoriasPlatillo y Platillos verificadas","timestamp":"2026-07-02T06:28:38.750Z"}
+{"level":"info","message":"✅ Tablas Ciudades y Empresas verificadas","timestamp":"2026-07-02T06:28:38.951Z"}
+{"level":"info","message":"✅ Ciudades base verificadas","timestamp":"2026-07-02T06:28:38.978Z"}
+{"level":"info","message":"✅ Tabla Comedores verificada","timestamp":"2026-07-02T06:28:39.047Z"}
+{"level":"info","message":"✅ Tablas Menus y MenuDetalle verificadas","timestamp":"2026-07-02T06:28:39.201Z"}
+{"level":"info","message":"✅ Tablas Pedidos y PedidoDetalle verificadas","timestamp":"2026-07-02T06:28:39.318Z"}
+{"level":"info","message":"✅ Tabla OrdenesProduccion verificada","timestamp":"2026-07-02T06:28:39.361Z"}
+{"level":"info","message":"✅ Permisos de Órdenes de Producción verificados","timestamp":"2026-07-02T06:28:39.394Z"}
+{"level":"info","message":"Servidor corriendo en http://localhost:3000","timestamp":"2026-07-02T06:28:39.431Z"}
+{"level":"info","message":{"action":"LOGIN","email":"1025762837","idUsuario":"33","ip":"::1"},"timestamp":"2026-07-02T06:29:05.285Z"}
+{"level":"info","message":{"action":"LOGIN","email":"admin@wasteless.com","idUsuario":"1","ip":"::1"},"timestamp":"2026-07-02T06:31:38.519Z"}
+{"level":"info","message":{"action":"LOGIN","email":"1025762837","idUsuario":"33","ip":"::1"},"timestamp":"2026-07-02T06:33:16.168Z"}
+{"level":"info","message":{"action":"LOGIN","email":"1025762837","idUsuario":"33","ip":"::1"},"timestamp":"2026-07-02T06:33:16.494Z"}
+{"level":"info","message":"Conexión a SQL Server establecida","timestamp":"2026-07-02T06:34:57.768Z"}
+{"level":"info","message":"Tablas Roles, Permisos y RolPermiso verificadas","timestamp":"2026-07-02T06:34:57.885Z"}
+{"level":"info","message":"Permisos base verificados","timestamp":"2026-07-02T06:34:57.894Z"}
+{"level":"info","message":"Tabla Usuarios verificada","timestamp":"2026-07-02T06:34:57.928Z"}
+{"level":"info","message":"Tablas Sesiones y RecuperacionPassword verificadas","timestamp":"2026-07-02T06:34:57.946Z"}
+{"level":"info","message":"Tablas CategoriasPlatillo y Platillos verificadas","timestamp":"2026-07-02T06:34:57.984Z"}
+{"level":"info","message":"✅ Tablas Ciudades y Empresas verificadas","timestamp":"2026-07-02T06:34:58.024Z"}
+{"level":"info","message":"✅ Ciudades base verificadas","timestamp":"2026-07-02T06:34:58.032Z"}
+{"level":"info","message":"✅ Tabla Comedores verificada","timestamp":"2026-07-02T06:34:58.075Z"}
+{"level":"info","message":"✅ Tablas Menus y MenuDetalle verificadas","timestamp":"2026-07-02T06:34:58.137Z"}
+{"level":"info","message":"✅ Tablas Pedidos y PedidoDetalle verificadas","timestamp":"2026-07-02T06:34:58.213Z"}
+{"level":"info","message":"✅ Tabla OrdenesProduccion verificada","timestamp":"2026-07-02T06:34:58.237Z"}
+{"level":"info","message":"✅ Permisos de Órdenes de Producción verificados","timestamp":"2026-07-02T06:34:58.257Z"}
+{"level":"info","message":"Servidor corriendo en http://localhost:3000","timestamp":"2026-07-02T06:34:58.265Z"}
+{"level":"info","message":"Conexión a SQL Server establecida","timestamp":"2026-07-02T06:35:45.967Z"}
+{"level":"info","message":"Tablas Roles, Permisos y RolPermiso verificadas","timestamp":"2026-07-02T06:35:46.350Z"}
+{"level":"info","message":"Permisos base verificados","timestamp":"2026-07-02T06:35:46.374Z"}
+{"level":"info","message":"Tabla Usuarios verificada","timestamp":"2026-07-02T06:35:46.469Z"}
+{"level":"info","message":"Tablas Sesiones y RecuperacionPassword verificadas","timestamp":"2026-07-02T06:35:46.516Z"}
+{"level":"info","message":"Tablas CategoriasPlatillo y Platillos verificadas","timestamp":"2026-07-02T06:35:46.608Z"}
+{"level":"info","message":"✅ Tablas Ciudades y Empresas verificadas","timestamp":"2026-07-02T06:35:46.747Z"}
+{"level":"info","message":"✅ Ciudades base verificadas","timestamp":"2026-07-02T06:35:46.787Z"}
+{"level":"info","message":"✅ Tabla Comedores verificada","timestamp":"2026-07-02T06:35:46.891Z"}
+{"level":"info","message":"✅ Tablas Menus y MenuDetalle verificadas","timestamp":"2026-07-02T06:35:47.020Z"}
+{"level":"info","message":"✅ Tablas Pedidos y PedidoDetalle verificadas","timestamp":"2026-07-02T06:35:47.076Z"}
+{"level":"info","message":"✅ Tabla OrdenesProduccion verificada","timestamp":"2026-07-02T06:35:47.085Z"}
+{"level":"info","message":"✅ Permisos de Órdenes de Producción verificados","timestamp":"2026-07-02T06:35:47.091Z"}
+{"level":"info","message":"Servidor corriendo en http://localhost:3000","timestamp":"2026-07-02T06:35:47.097Z"}
+{"level":"info","message":"Conexión a SQL Server establecida","timestamp":"2026-07-02T06:37:34.979Z"}
+{"level":"info","message":"Tablas Roles, Permisos y RolPermiso verificadas","timestamp":"2026-07-02T06:37:35.062Z"}
+{"level":"info","message":"Permisos base verificados","timestamp":"2026-07-02T06:37:35.069Z"}
+{"level":"info","message":"Tabla Usuarios verificada","timestamp":"2026-07-02T06:37:35.101Z"}
+{"level":"info","message":"Tablas Sesiones y RecuperacionPassword verificadas","timestamp":"2026-07-02T06:37:35.116Z"}
+{"level":"info","message":"Tablas CategoriasPlatillo y Platillos verificadas","timestamp":"2026-07-02T06:37:35.156Z"}
+{"level":"info","message":"✅ Tablas Ciudades y Empresas verificadas","timestamp":"2026-07-02T06:37:35.202Z"}
+{"level":"info","message":"✅ Ciudades base verificadas","timestamp":"2026-07-02T06:37:35.211Z"}
+{"level":"info","message":"✅ Tabla Comedores verificada","timestamp":"2026-07-02T06:37:35.262Z"}
+{"level":"info","message":"✅ Tablas Menus y MenuDetalle verificadas","timestamp":"2026-07-02T06:37:35.333Z"}
+{"level":"info","message":"✅ Tablas Pedidos y PedidoDetalle verificadas","timestamp":"2026-07-02T06:37:35.383Z"}
+{"level":"info","message":"✅ Tabla OrdenesProduccion verificada","timestamp":"2026-07-02T06:37:35.398Z"}
+{"level":"info","message":"✅ Permisos de Órdenes de Producción verificados","timestamp":"2026-07-02T06:37:35.410Z"}
+{"level":"info","message":"Servidor corriendo en http://localhost:3000","timestamp":"2026-07-02T06:37:35.417Z"}
+{"level":"info","message":"Conexión a SQL Server establecida","timestamp":"2026-07-02T06:38:06.338Z"}
+{"level":"info","message":"Tablas Roles, Permisos y RolPermiso verificadas","timestamp":"2026-07-02T06:38:06.441Z"}
+{"level":"info","message":"Permisos base verificados","timestamp":"2026-07-02T06:38:06.451Z"}
+{"level":"info","message":"Tabla Usuarios verificada","timestamp":"2026-07-02T06:38:06.503Z"}
+{"level":"info","message":"Tablas Sesiones y RecuperacionPassword verificadas","timestamp":"2026-07-02T06:38:06.520Z"}
+{"level":"info","message":"Tablas CategoriasPlatillo y Platillos verificadas","timestamp":"2026-07-02T06:38:06.559Z"}
+{"level":"info","message":"✅ Tablas Ciudades y Empresas verificadas","timestamp":"2026-07-02T06:38:06.644Z"}
+{"level":"info","message":"✅ Ciudades base verificadas","timestamp":"2026-07-02T06:38:06.660Z"}
+{"level":"info","message":"✅ Tabla Comedores verificada","timestamp":"2026-07-02T06:38:06.736Z"}
+{"level":"info","message":"✅ Tablas Menus y MenuDetalle verificadas","timestamp":"2026-07-02T06:38:06.787Z"}
+{"level":"info","message":"✅ Tablas Pedidos y PedidoDetalle verificadas","timestamp":"2026-07-02T06:38:06.828Z"}
+{"level":"info","message":"✅ Tabla OrdenesProduccion verificada","timestamp":"2026-07-02T06:38:06.841Z"}
+{"level":"info","message":"✅ Permisos de Órdenes de Producción verificados","timestamp":"2026-07-02T06:38:06.853Z"}
+{"level":"info","message":"Servidor corriendo en http://localhost:3000","timestamp":"2026-07-02T06:38:06.859Z"}
+{"level":"info","message":"Conexión a SQL Server establecida","timestamp":"2026-07-02T06:38:30.126Z"}

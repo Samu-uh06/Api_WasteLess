@@ -57,9 +57,16 @@ class SqlProductionOrderRepository {
     const pool = await getConnection();
     const result = await pool.request().query(`
       SELECT
-        op.idOrden, op.codigo, op.idPedido, op.diaSemana, op.estado,
-        op.fechaCreacion, op.fechaActualizacion,
-        c.nombre AS nombreComedor, e.nombreEmpresa AS nombreEmpresa, c.capacidad AS capacidad,
+        op.idOrden,
+        op.codigo,
+        op.idPedido,
+        op.diaSemana,
+        op.estado,
+        op.fechaCreacion,
+        op.fechaActualizacion,
+        c.nombre          AS nombreComedor,
+        e.nombreEmpresa   AS nombreEmpresa,
+        c.capacidad       AS capacidad,
         COUNT(pd.idDetalle) AS cantPlatillos,
         CASE op.diaSemana
           WHEN 'Lunes'     THEN DATEADD(day, 0, p.fechaInicio)
@@ -82,6 +89,25 @@ class SqlProductionOrderRepository {
       ORDER BY op.idOrden DESC
     `);
     return result.recordset.map(r => new ProductionOrder(r));
+  }
+
+  async getTodayOrders() {
+    const pool = await getConnection();
+    const result = await pool.request().query(`
+      SELECT
+        op.idOrden, op.codigo, op.diaSemana, op.estado, op.fechaCreacion,
+        c.nombre AS nombreComedor, e.nombreEmpresa,
+        COUNT(pd.idDetalle) AS cantPlatillos
+      FROM OrdenesProduccion op
+      INNER JOIN Pedidos p ON op.idPedido = p.idPedido
+      INNER JOIN Comedores c ON p.idComedor = c.idComedor
+      INNER JOIN Empresas e ON p.idEmpresa = e.idEmpresa
+      LEFT JOIN PedidoDetalle pd ON pd.idPedido = op.idPedido AND pd.diaSemana = op.diaSemana
+      WHERE CAST(op.fechaCreacion AS DATE) = CAST(GETDATE() AS DATE)
+      GROUP BY op.idOrden, op.codigo, op.diaSemana, op.estado, op.fechaCreacion, c.nombre, e.nombreEmpresa
+      ORDER BY op.fechaCreacion DESC
+    `);
+    return result.recordset;
   }
 }
 

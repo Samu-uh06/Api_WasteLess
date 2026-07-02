@@ -4,15 +4,19 @@ const Auth = require('../../domain/entities/Auth');
 const Session = require('../../domain/entities/Session');
 
 class SqlAuthRepository extends AuthRepository {
-  async findByEmail(email) {
-    const pool = await getConnection();
-    const result = await pool.request()
-      .input('email', sql.NVarChar, email)
-      .query(`SELECT * FROM Usuarios WHERE email = @email`);
-
-    if (!result.recordset[0]) return null;
-    return new Auth(result.recordset[0]);
-  }
+async findByEmail(identifier) {
+  const pool = await getConnection();
+  const result = await pool.request()
+    .input('identifier', sql.NVarChar, identifier)
+    .query(`
+      SELECT u.*, r.nombre AS nombreRol
+      FROM Usuarios u
+      LEFT JOIN Roles r ON u.idRol = r.idRol
+      WHERE u.email = @identifier OR u.numeroDocumento = @identifier
+    `);
+  if (!result.recordset[0]) return null;
+  return new Auth(result.recordset[0]);
+}
 
   async getUserPermissions(idUsuario) {
     const pool = await getConnection();

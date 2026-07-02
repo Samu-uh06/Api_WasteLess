@@ -130,12 +130,68 @@ async getCompanies() {
   async getOrderStatistics() {
     const pool = await getConnection();
     const result = await pool.request().query(`
+      SELECT estadoReal, COUNT(*) AS total FROM (
+        SELECT
+          p.idPedido,
+          CASE
+            WHEN COUNT(pd.idDetalle) = 0 THEN 'pendiente'
+            WHEN SUM(CASE WHEN pd.estadoProduccion = 'completado' THEN 1 ELSE 0 END) = COUNT(pd.idDetalle) THEN 'completado'
+            WHEN SUM(CASE WHEN pd.estadoProduccion IN ('completado','en_proceso') THEN 1 ELSE 0 END) > 0 THEN 'en_proceso'
+            ELSE 'pendiente'
+          END AS estadoReal
+        FROM Pedidos p
+        LEFT JOIN PedidoDetalle pd ON pd.idPedido = p.idPedido
+        WHERE p.estado != 'eliminado'
+        GROUP BY p.idPedido
+      ) t
+      GROUP BY estadoReal;
+
       SELECT
-        (SELECT COUNT(DISTINCT idEmpresa) FROM Pedidos WHERE estado != 'eliminado') AS totalEmpresas,
-        (SELECT COUNT(DISTINCT idComedor) FROM Pedidos WHERE estado != 'eliminado') AS totalComedores,
-        (SELECT COUNT(DISTINCT semana) FROM Pedidos WHERE estado != 'eliminado') AS totalSemanas
+        SUM(CASE WHEN MONTH(fechaCreacion) = MONTH(GETDATE()) AND YEAR(fechaCreacion) = YEAR(GETDATE()) THEN 1 ELSE 0 END) AS pedidosMesActual,
+        SUM(CASE WHEN MONTH(fechaCreacion) = MONTH(DATEADD(MONTH, -1, GETDATE())) AND YEAR(fechaCreacion) = YEAR(DATEADD(MONTH, -1, GETDATE())) THEN 1 ELSE 0 END) AS pedidosMesAnterior
+      FROM Pedidos
+      WHERE estado != 'eliminado';
+
+      SELECT
+        ISNULL(SUM(CASE WHEN MONTH(p.fechaCreacion) = MONTH(GETDATE()) AND YEAR(p.fechaCreacion) = YEAR(GETDATE()) THEN pl.precio ELSE 0 END), 0) AS totalMesActual,
+        ISNULL(SUM(CASE WHEN MONTH(p.fechaCreacion) = MONTH(DATEADD(MONTH, -1, GETDATE())) AND YEAR(p.fechaCreacion) = YEAR(DATEADD(MONTH, -1, GETDATE())) THEN pl.precio ELSE 0 END), 0) AS totalMesAnterior
+      FROM PedidoDetalle pd
+      INNER JOIN Pedidos p ON p.idPedido = pd.idPedido
+      INNER JOIN Platillos pl ON pl.idPlatillo = pd.idPlatillo
+      WHERE p.estado != 'eliminado';
+
+      SELECT TOP 5
+        c.idComedor,
+        c.nombre AS nombreComedor,
+        e.nombreEmpresa,
+        COUNT(DISTINCT p.idPedido) AS totalPedidos,
+        ISNULL(SUM(pl.precio), 0) AS facturacionTotal,
+        ISNULL(SUM(CASE WHEN MONTH(p.fechaCreacion) = MONTH(GETDATE()) AND YEAR(p.fechaCreacion) = YEAR(GETDATE()) THEN pl.precio ELSE 0 END), 0) AS facturacionMesActual,
+        ISNULL(SUM(CASE WHEN MONTH(p.fechaCreacion) = MONTH(DATEADD(MONTH, -1, GETDATE())) AND YEAR(p.fechaCreacion) = YEAR(DATEADD(MONTH, -1, GETDATE())) THEN pl.precio ELSE 0 END), 0) AS facturacionMesAnterior
+      FROM Comedores c
+      INNER JOIN Pedidos p ON p.idComedor = c.idComedor AND p.estado != 'eliminado'
+      INNER JOIN Empresas e ON e.idEmpresa = p.idEmpresa
+      LEFT JOIN PedidoDetalle pd ON pd.idPedido = p.idPedido
+      LEFT JOIN Platillos pl ON pl.idPlatillo = pd.idPlatillo
+      GROUP BY c.idComedor, c.nombre, e.nombreEmpresa
+      ORDER BY facturacionTotal DESC;
     `);
-    return result.recordset[0];
+
+    const [pedidosPorEstadoRows, pedidosMensualRows, impactoRows, topComedores] = result.recordsets;
+
+    const pedidosPorEstado = { completado: 0, en_proceso: 0, pendiente: 0 };
+    pedidosPorEstadoRows.forEach(r => { pedidosPorEstado[r.estadoReal] = r.total; });
+
+    return {
+      pedidosPorEstado,
+      pedidosMesActual: pedidosMensualRows[0]?.pedidosMesActual || 0,
+      pedidosMesAnterior: pedidosMensualRows[0]?.pedidosMesAnterior || 0,
+      impactoEconomico: {
+        totalMesActual: impactoRows[0]?.totalMesActual || 0,
+        totalMesAnterior: impactoRows[0]?.totalMesAnterior || 0,
+      },
+      topComedores,
+    };
   }
 
   async findExistingOrder(idMenu, idComedor, semana) {
@@ -204,8 +260,6 @@ async getCompanies() {
         VALUES (@idPedido, @diaSemana, @tipoComida, @idPlatillo)
       `);
   }
-
-  
 
 }
 
